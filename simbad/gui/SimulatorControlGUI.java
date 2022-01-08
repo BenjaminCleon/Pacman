@@ -40,6 +40,7 @@ import javax.swing.JLabel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JRadioButton;
 
+import Projet.Robot;
 import simbad.sim.Agent;
 import simbad.sim.Simulator;
 import javax.swing.JFrame;
@@ -57,7 +58,7 @@ public class SimulatorControlGUI extends JPanel implements ActionListener, KeyLi
     JFormattedTextField timeFactorField;
     JFrame parentFrame;
     Font smallFont;
-    Agent joueur;
+    Robot joueur;
     
     public SimulatorControlGUI(JFrame parentFrame,Simulator simulator) {
         this.simulator = simulator;
@@ -67,8 +68,8 @@ public class SimulatorControlGUI extends JPanel implements ActionListener, KeyLi
         createGUI();
         this.parentFrame = parentFrame;
         
-        if( this.simulator.getAgentList().size() > 0 && this.simulator.getAgentList().get(0) instanceof Agent)
-        	joueur = (Agent) this.simulator.getAgentList().get(0);
+        if( this.simulator.getAgentList().size() > 0 && this.simulator.getAgentList().get(0) instanceof Robot)
+        	joueur = (Robot) this.simulator.getAgentList().get(0);
  
      }
     
@@ -163,10 +164,10 @@ public class SimulatorControlGUI extends JPanel implements ActionListener, KeyLi
     
 	public void keyPressed(KeyEvent e)
 	{
-		if (e.getKeyCode() == KeyEvent.VK_UP) this.joueur.setTranslationalVelocity(8);
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) this.joueur.setTranslationalVelocity(-8);
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) this.joueur.setRotationalVelocity(Math.PI/2);
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) this.joueur.setRotationalVelocity(-Math.PI/2);
+		if (e.getKeyCode() == KeyEvent.VK_UP   ) this.joueur.setAngle("TOP"  );
+		if (e.getKeyCode() == KeyEvent.VK_DOWN ) this.joueur.setAngle("DOWN" );
+		if (e.getKeyCode() == KeyEvent.VK_LEFT ) this.joueur.setAngle("LEFT" );
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) this.joueur.setAngle("RIGHT");
 		
 	}
 
