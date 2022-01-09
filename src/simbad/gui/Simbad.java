@@ -39,6 +39,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Projet.GameplayWindow;
+
 import simbad.demo.DemoManager;
 import simbad.sim.Agent;
 import simbad.sim.EnvironmentDescription;
@@ -62,6 +64,7 @@ public class Simbad extends JFrame implements ActionListener {
     JDesktopPane desktop;
     WorldWindow worldWindow=null;
     ControlWindow controlWindow=null;
+    GameplayWindow gameplayWindow = null;
     World world;
     Simulator simulator;
     Console console=null;
@@ -120,6 +123,11 @@ public class Simbad extends JFrame implements ActionListener {
         worldWindow.show();
         worldWindow.setLocation(300, 20);
         worldWindow.setSize(Simbad.SIZEX/2-Simbad.SIZEX/10, Simbad.SIZEY-Simbad.SIZEY/8 );
+	    
+	gameplayWindow = new GameplayWindow();
+        desktop.add(gameplayWindow);
+        gameplayWindow.show();
+        gameplayWindow.setLocation(20, 100);
         
         if (!backgroundMode){
         controlWindow = new ControlWindow(world, simulator);
@@ -137,6 +145,7 @@ public class Simbad extends JFrame implements ActionListener {
         if (agentInspector != null) agentInspector.dispose();
         if (controlWindow != null){
             controlWindow.dispose();
+        if(gameplayWindow!=null)gameplayWindow.dispose();
         }
     }
   
