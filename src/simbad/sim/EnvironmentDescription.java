@@ -27,6 +27,9 @@ package simbad.sim;
 import javax.vecmath.Color3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
+
+import simbad.gui.Simbad;
+
 import java.util.ArrayList;
 /**
  * This class is intend to describe easily a the world and its components.
@@ -67,6 +70,7 @@ public class EnvironmentDescription {
     /** The size of the square containing the world */
     public  float worldSize;
     
+	protected Simbad mySim;
     
 
     public EnvironmentDescription() {
@@ -116,6 +120,9 @@ public class EnvironmentDescription {
    public void light2SetPosition(double x,double y,double z){
        light2Position.set(x,y,z);
    }
+
+	public void setSimbad(Simbad sim) { this.mySim = sim; }
+	public Simbad getSimbad() { return this.mySim; }
    
    /** Use physics in simulation. */
    public void setUsePhysics(boolean use){
@@ -133,7 +140,6 @@ public class EnvironmentDescription {
     */ 
    public void setWorldSize(float size){ worldSize = size;}
    
-
    public void addMap(String[] map){
  
        int sx = map[0].length();

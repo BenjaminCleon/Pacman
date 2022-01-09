@@ -29,6 +29,7 @@ public class Environnement extends EnvironmentDescription
 	
 	private Pacman pacman;
 	private Ghost  blinky;
+
 	
 	public Environnement()
 	{
@@ -50,7 +51,7 @@ public class Environnement extends EnvironmentDescription
 		
 		try
 		{
-			Scanner sc = new Scanner(new FileInputStream("./data/config.txt"), "UTF8");
+			Scanner sc = new Scanner(new FileInputStream("./data/config2.txt"), "UTF8");
 			
 			while((sLigneActuelle=sc.nextLine())!=null)
 			{
