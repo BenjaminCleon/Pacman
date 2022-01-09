@@ -87,10 +87,9 @@ public class SimulatorControlGUI extends JPanel implements ActionListener, KeyLi
         // Control buttons
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
-        createButton(panel1, "run", "run");
+        createButton(panel1, "lancer", "run");
         createButton(panel1, "pause", "pause");
-        createButton(panel1, "reset", "reset");
-        createButton(panel1, "restart", "restart");
+        createButton(panel1, "Recommencer", "reset");
         add(panel1);
         // time factor buttons
         JPanel panel2 = new JPanel();
