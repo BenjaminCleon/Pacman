@@ -38,7 +38,7 @@ public final class WorldWindow extends JInternalFrame {
 	World world;
  
     public WorldWindow(World world) {
-        super("world");
+        super("jeu");
         this.world = world;
         initialize();
     }
