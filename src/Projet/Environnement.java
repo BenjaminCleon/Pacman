@@ -28,8 +28,7 @@ public class Environnement extends EnvironmentDescription
 	private List<Cherry> cherries;
 	
 	private Pacman pacman;
-	private Ghost  blinky;
-
+	private Blinky  blinky;
 	
 	public Environnement()
 	{
@@ -41,17 +40,17 @@ public class Environnement extends EnvironmentDescription
 		this.cherries = new ArrayList<Cherry>();
 		
 		this.pacman = new Pacman(new Vector3d(-0.5,0, 7), "pacman", this);
-		//this.blinky = new Blinky(new Vector3d(-0.5,0,-5), "blinky", this, pacman);		
+		this.blinky = new Blinky(new Vector3d(-0.5,0,-5), "blinky", this, pacman);		
 		
 		this.add(this.pacman);
-		//this.add(this.blinky);
+		this.add(this.blinky);
 		
 		String sLigneActuelle = "";
 		int iZ = -15;
 		
 		try
 		{
-			Scanner sc = new Scanner(new FileInputStream("./data/config2.txt"), "UTF8");
+			Scanner sc = new Scanner(new FileInputStream("./data/config.txt"), "UTF8");
 			
 			while((sLigneActuelle=sc.nextLine())!=null)
 			{
@@ -92,5 +91,10 @@ public class Environnement extends EnvironmentDescription
 	public static void main(String[] args)
 	{
 		new Simbad(new Environnement(), false);
+	}
+
+	public Pacman getPacman()
+	{
+		return this.pacman;
 	}
 }

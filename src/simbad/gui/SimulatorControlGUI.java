@@ -80,17 +80,17 @@ public class SimulatorControlGUI extends JPanel implements ActionListener, KeyLi
     }
     void createGUI() {
         setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createTitledBorder(""),
+                BorderFactory.createTitledBorder("Simulator"),
                 BorderFactory.createEmptyBorder(5,5,5,5)));
   
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         // Control buttons
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
-        createButton(panel1, "Lancer", "run");
+        createButton(panel1, "run", "run");
         createButton(panel1, "pause", "pause");
-        createButton(panel1, "recommencer", "reset");
-        //createButton(panel1, "recommencer", "restart");
+        createButton(panel1, "reset", "reset");
+        createButton(panel1, "restart", "restart");
         add(panel1);
         // time factor buttons
         JPanel panel2 = new JPanel();
@@ -171,10 +171,7 @@ public class SimulatorControlGUI extends JPanel implements ActionListener, KeyLi
 	}
 
 	public void keyReleased(KeyEvent e)
-	{
-		this.joueur.setTranslationalVelocity(0);
-		this.joueur.setRotationalVelocity(0);
-	}
+	{	}
 
 	public void keyTyped(KeyEvent e) {}
  

@@ -12,8 +12,6 @@ public class Cherry extends CherryAgent
 	private int lig;
 	private int col;
 	
-	private boolean ceuillis;
-	
 	private Environnement myEnv;
 	
 	private HashMap<Cherry, Integer> voisins; // distance avec la node voisine
@@ -32,8 +30,6 @@ public class Cherry extends CherryAgent
 		this.col = col;
 		this.myEnv = ed;
 		
-		this.ceuillis = false;
-		
 		this.valeur  = 0;
 		this.position = new Point3d();
 		this.voisins = new HashMap<Cherry, Integer>();
@@ -51,14 +47,6 @@ public class Cherry extends CherryAgent
 		
 		return null;
 	}
-	
-	public void ceuillir() 
-	{
-		this.ceuillis = true;
-		this.detach();
-	}
-	
-	public boolean getCeuillis() {return this.ceuillis;}
 	
 	public HashMap<Cherry, Integer> getVoisins() { return this.voisins; }
 	
@@ -97,7 +85,7 @@ public class Cherry extends CherryAgent
 		}
 		
 		bOk = false;
-		// voisins ï¿½ droite
+		// voisins à droite
 		for (int x=this.col+1;x<Environnement.NB_COL;x++)
 		{
 			if ( plateau[this.lig][x] == 'C' )
@@ -110,10 +98,8 @@ public class Cherry extends CherryAgent
 			if ( plateau[this.lig][x] == 'B' || bOk )break;
 		}
 		
-		System.out.println("("+this.lig + "," + this.col +  ")" + this.voisins);
-		
 		bOk = false;
-		// voisins ï¿½ gauche
+		// voisins à gauche
 		for (int x=this.col-1;x>=0;x--)
 		{
 			if ( plateau[this.lig][x] == 'C' )
@@ -125,6 +111,8 @@ public class Cherry extends CherryAgent
 					}
 			if ( plateau[this.lig][x] == 'B' || bOk )break;
 		}
+		
+		System.out.println(this + " " +  voisins);
 	}
 	
 	public Point3d getPosition()

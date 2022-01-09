@@ -38,7 +38,7 @@ public final class WorldWindow extends JInternalFrame {
 	World world;
  
     public WorldWindow(World world) {
-        super("Jeu");
+        super("world");
         this.world = world;
         initialize();
     }
@@ -51,5 +51,4 @@ public final class WorldWindow extends JInternalFrame {
         setSize(400, 800);
         setResizable(true);
     }
-    
 }

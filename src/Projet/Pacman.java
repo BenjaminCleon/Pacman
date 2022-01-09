@@ -16,13 +16,15 @@ public class Pacman extends Robot
 		this.setCurrentCherry();
 	}
 	
+	public Cherry getCurrentCherry(){ return this.currentCherry;	}
+	
 	private void setCurrentCherry()
 	{
 		this.currentCherry = null;
 		for ( Cherry c : this.myEnv.getCherries() )
 		{
-			if ( (int)Math.round(this.getX()) == (int)Math.round(c.getPosition().getX()) &&
-				 (int)Math.round(this.getZ()) == (int)Math.round(c.getPosition().getZ()) )
+			if ( (int)this.getX() == (int)Math.round(c.getPosition().getX()) &&
+				 (int)this.getZ() == (int)Math.round(c.getPosition().getZ()) )
 			{
 				this.currentCherry = c;
 				break;
@@ -36,29 +38,13 @@ public class Pacman extends Robot
 		this.setCurrentCherry();
 		
 		if ( this.anOtherAgentIsVeryNear() && this.getVeryNearAgent() instanceof Cherry )
-		{
-			((Cherry)this.getVeryNearAgent()).ceuillir();
-			this.verificationVictoire();
-			
-		}
+			this.getVeryNearAgent().detach();
 		
 		this.setTranslationalVelocity(4);
 
-		if ( this.currentCherry != null )this.setDeplacement(this.currentCherry);
-	}
-	
-	public void verificationVictoire()
-	{
-		boolean finis = true;
-		for(Cherry c : this.myEnv.getCherries())
-			if(!c.getCeuillis())
-				finis = false;
-		if(finis) {this.victoire();}
-	}
-	public void victoire()
-	{
-		//System.out.println("Victoire");
-		myEnv.getSimbad().fermer();
-		new FrameVictoire();
+		if ( this.currentCherry != null )
+		{
+			this.setDeplacement(this.currentCherry);
+		}
 	}
 }

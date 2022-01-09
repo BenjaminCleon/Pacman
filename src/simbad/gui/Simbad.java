@@ -39,7 +39,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Projet.GameplayWindow;
 import simbad.demo.DemoManager;
 import simbad.sim.Agent;
 import simbad.sim.EnvironmentDescription;
@@ -67,12 +66,11 @@ public class Simbad extends JFrame implements ActionListener {
     Simulator simulator;
     Console console=null;
     AgentInspector agentInspector=null;
-    GameplayWindow gameplayWindow = null;
     boolean backgroundMode;
    
     static  Simbad simbadInstance=null;
     
-    public void fermer() {this.dispose();}
+    
     
     /** Construct Simbad application with the given environement description */
     public Simbad(EnvironmentDescription ed, boolean backgroundMode) {
@@ -84,7 +82,6 @@ public class Simbad extends JFrame implements ActionListener {
         setSize(SIZEX/2+SIZEX/10, SIZEY);
         createGUI();
         start(ed);
-        ed.setSimbad(this);
         setVisible(true);
        
           }
@@ -124,11 +121,6 @@ public class Simbad extends JFrame implements ActionListener {
         worldWindow.setLocation(300, 20);
         worldWindow.setSize(Simbad.SIZEX/2-Simbad.SIZEX/10, Simbad.SIZEY-Simbad.SIZEY/8 );
         
-        gameplayWindow = new GameplayWindow();
-        desktop.add(gameplayWindow);
-        gameplayWindow.show();
-        gameplayWindow.setLocation(20, 100);
-        
         if (!backgroundMode){
         controlWindow = new ControlWindow(world, simulator);
         desktop.add(controlWindow);
@@ -142,10 +134,10 @@ public class Simbad extends JFrame implements ActionListener {
     private void disposeInternalFrames() {
         simulator.dispose();
         worldWindow.dispose();
-        gameplayWindow.dispose();
         if (agentInspector != null) agentInspector.dispose();
-        if (controlWindow != null)controlWindow.dispose();
-        if(gameplayWindow!=null)gameplayWindow.dispose();
+        if (controlWindow != null){
+            controlWindow.dispose();
+        }
     }
   
     /**

@@ -1,6 +1,7 @@
 package Projet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.media.j3d.Transform3D;
@@ -15,6 +16,7 @@ public class Robot extends Agent
 	protected double  angle   ;
 	protected Point3d position;
 	protected String    target;
+	private int counter;
 	
 	protected Environnement myEnv;	
 	protected List<String> deplacementsAutorise;
@@ -25,6 +27,7 @@ public class Robot extends Agent
 		this.angle    = 0.0;
 		this.position = new Point3d();
 		this.myEnv    = ed;
+		this.counter = 0;
 		
 		this.deplacementsAutorise = new ArrayList<String>();
 		this.deplacementsAutorise.add("RIGTH");
@@ -55,42 +58,32 @@ public class Robot extends Agent
 	
 	protected void setDeplacement(Cherry cherry)
 	{
-		Point3d pt = new Point3d();
-		cherry.getCoords(pt)      ;
 		char[][] plateau = this.myEnv.getPlateau();
-		int x = (int)Math.round(pt.getX());
-		int z = (int)Math.round(pt.getZ());
-		//HashMap<Integer, >
-		
-		boolean bTop, bDown, bLeft, bRight;
-		bTop = bDown = bLeft = bRight = false;
+		double x = cherry.getPosition().getX();
+		double z = cherry.getPosition().getZ();
+		HashMap<Cherry, Integer> voisins;
 
-		if ( Math.abs(Math.abs(x)-Math.abs(this.position.getX())) < 0.1 && Math.abs(Math.abs(z)-Math.abs(this.position.getZ())) < 0.1 )
+		if ( Math.abs((int)Math.abs(this.position.getX())-Math.abs(x)) < 1 && Math.abs(Math.abs(this.position.getZ())-Math.abs(z)) < 1 )
 		{
 			x+=14;
 			z+=15;
 			
-			this.deplacementsAutorise.add("RIGHT");
-			this.deplacementsAutorise.add("LEFT" );
-			this.deplacementsAutorise.add("DOWN" );
-			this.deplacementsAutorise.add("TOP"  );
+			this.deplacementsAutorise.clear();
 			
-			for ( Cherry c : cherry.getVoisins().keySet() )
+			voisins = cherry.getVoisins();
+			for ( Cherry c : voisins.keySet() )
 			{
-				;//if ( )
+				if ( c.getCol() == cherry.getCol() )
+				{
+					if ( c.getLig() > cherry.getLig() )this.deplacementsAutorise.add("DOWN");
+					else                               this.deplacementsAutorise.add("TOP" );
+				}
+				else
+				{
+					if ( c.getCol() > cherry.getCol() )this.deplacementsAutorise.add("RIGHT");
+					else                               this.deplacementsAutorise.add("LEFT" );
+				}
 			}
-			// gestion du top
-			
-			
-			// gestion de down
-
-			
-			// gestion de left
-
-			
-			// gestion de right
-
-			
 		}
 	}
 }

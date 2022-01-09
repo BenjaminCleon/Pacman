@@ -1,6 +1,7 @@
 package Projet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,32 +10,48 @@ import javax.vecmath.Vector3d;
 
 public class Ghost extends Robot
 {
-	private Pacman pacHunt;
+	private Pacman  pacHunt ;
 	private Cherry  nextNode;
+	
+	protected int counter;
 	
 	public Ghost(Vector3d pos, String name, Environnement ed, Pacman pacHunt)
 	{
 		super(pos, name, ed);
 		
+		this.counter=0;
 		this.pacHunt = pacHunt;
 	}
 	
 	protected Pacman getPacHunt() { return this.pacHunt; }
 
-	protected void goTo(int x, int z)
+	protected void goTo(Cherry chPacman)
 	{
-		for ( Cherry n : this.myEnv.getNodes() )n.setSelection(false);
+		for ( Cherry n : this.myEnv.getCherries() )n.setSelection(false);
 		
-		List<Cherry> chemins = this.determinerChemin(x,z);
+		List<Cherry> chemins = this.determinerChemin(chPacman);
+		Collections.reverse(chemins);
 		
-		System.out.println();
-		for ( Cherry n : chemins)System.out.print(n+ "|");
+		for ( Cherry c : chemins)
+		{
+			this.setDeplacement(c);
+			if ( c.getCol() == chPacman.getCol() )
+			{
+				if ( c.getLig() > chPacman.getLig() ) { System.out.println("TOP"); this.setAngle("TOP"); }
+				else                                  { System.out.println("DOWN") ; this.setAngle("DOWN" ); }
+			}
+			else
+			{
+				if ( c.getCol() > chPacman.getCol() ){ System.out.println("LEFT" ); this.setAngle("LEFT"  );}
+				else                                 { System.out.println("RIGHT"); this.setAngle("RIGHT" );}
+			}
+		}
 	}
 	
-	private List<Cherry> determinerChemin(int x, int z)
+	private List<Cherry> determinerChemin(Cherry chPacman)
 	{
 		List<Cherry> chemins = new ArrayList<Cherry>();
-		Cherry node;
+		Cherry cherry;
 		Cherry endNode = null;
 		boolean bOk = false;
 		
@@ -42,32 +59,31 @@ public class Ghost extends Robot
 		/*    Utilisation de Dijkstra   */
 		/*------------------------------*/
 		
-		nextNode = this.determinerNextNode(); // node la plus proche du fantome
+		nextNode = this.determinerNextNode(); // cherry la plus proche du fantome
 		
 		// initialisation
-		for ( Cherry n : this.myEnv.getNodes() )n.setValeur(100000);
+		for ( Cherry n : this.myEnv.getCherries() )n.setValeur(100000);
 		nextNode.setValeur(0);
 		
-		List<Cherry> nodes = new ArrayList<>(this.myEnv.getNodes());
+		List<Cherry> cherries = new ArrayList<>(this.myEnv.getCherries());
 
 		HashMap<Cherry, Integer> voisins;
 		
 		while ( !bOk )
 		{
-			node = this.trouveMin(nodes);
+			cherry = this.trouveMin(cherries);
 			
-			voisins = node.getVoisins();
-			endNode = node             ;
-			node.setSelection(true)    ;
+			voisins = cherry.getVoisins();
+			cherry.setSelection(true)    ;
 			for ( Cherry n : voisins.keySet() )
-				if ( !n.getSelection() )this.majDistances(node, n );
+				if ( !n.getSelection() )this.majDistances(cherry, n );
 			
 			bOk = true;
-			for ( Cherry n : nodes )if ( !n.getSelection() )bOk = false;
+			
+			if ( !chPacman.getSelection() ) bOk = false;
 		}
-
-		System.out.println(nextNode + " " + endNode);
 		
+		endNode = chPacman;
 		while ( !endNode.equals(nextNode) )
 		{
 			chemins.add(endNode);
@@ -78,12 +94,12 @@ public class Ghost extends Robot
 		return chemins;
 	}
 	
-	private Cherry trouveMin(List<Cherry> nodes)
+	private Cherry trouveMin(List<Cherry> cherries)
 	{
 		int  mini   = 100000;
 		Cherry sommet = null  ;
 		
-		for ( Cherry n : nodes )
+		for ( Cherry n : cherries )
 		{
 			if ( !n.getSelection() && n.getValeur() < mini )
 			{
@@ -95,12 +111,12 @@ public class Ghost extends Robot
 		return sommet;
 	}
 	
-	private int poids(Cherry n1, Cherry n2)
+	private int poids(Cherry c1, Cherry c2)
 	{
-		HashMap<Cherry, Integer> nodes = n1.getVoisins();
+		HashMap<Cherry, Integer> cherries = c1.getVoisins();
 		
-		for ( Cherry n : nodes.keySet() )
-			if ( n.equals(n2) )return nodes.get(n);
+		for ( Cherry c : cherries.keySet() )
+			if ( c.equals(c2) )return cherries.get(c);
 		
 		return 0;
 	}
@@ -125,7 +141,7 @@ public class Ghost extends Robot
 			case "LEFT":
 			{
 				for ( int x=xIntoTab;x>=0;x-- )
-					if ( plateau[zIntoTab][x] == 'N' )
+					if ( plateau[zIntoTab][x] == 'C' )
 					{
 						xIntoTab = x;
 						break;
@@ -135,7 +151,7 @@ public class Ghost extends Robot
 			case "RIGHT":
 			{
 				for ( int x=xIntoTab;x<Environnement.NB_COL;x++ )
-					if ( plateau[zIntoTab][x] == 'N' )
+					if ( plateau[zIntoTab][x] == 'C' )
 					{
 						xIntoTab = x;
 						break;
@@ -145,7 +161,7 @@ public class Ghost extends Robot
 			case "DOWN":
 			{
 				for ( int z=zIntoTab;z>=0;z-- )
-					if ( plateau[z][xIntoTab] == 'N' )
+					if ( plateau[z][xIntoTab] == 'C' )
 					{
 						zIntoTab = z;
 						break;
@@ -155,7 +171,7 @@ public class Ghost extends Robot
 			case "TOP":
 			{
 				for ( int z=zIntoTab;z<Environnement.NB_LIG;z++ )
-					if ( plateau[z][xIntoTab] == 'N' )
+					if ( plateau[z][xIntoTab] == 'C' )
 					{
 						zIntoTab = z;
 						break;
@@ -164,7 +180,7 @@ public class Ghost extends Robot
 			}	
 		}
 		
-		for (Cherry n : this.myEnv.getNodes() )
+		for (Cherry n : this.myEnv.getCherries() )
 			if ( n.getThis(zIntoTab, xIntoTab) != null )
 				return n.getThis(zIntoTab, xIntoTab);
 		
