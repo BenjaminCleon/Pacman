@@ -5,16 +5,18 @@ import javax.vecmath.Vector3d;
 
 public class Inky extends Ghost
 {
-
+	
 	public Inky(Vector3d pos, String name, Environnement ed, Pacman pacHunt)
 	{
 		super(pos, name, ed, pacHunt);
-		this.setColor(new Color3f(0,255,0));
+		this.setColor(new Color3f(0,0,255));
 		this.target = "RIGHT";
 	}
 	
 	public void performBehavior()
 	{
+		this.cpt++;
+		System.out.println("CPT " + this.cpt);
 		this.setTranslationalVelocity(4);
 		this.getCoords(this.position);
 		
@@ -22,54 +24,61 @@ public class Inky extends Ghost
 		Cherry chPacman = this.myEnv.getPacman().getCurrentCherry();
 		Cherry chTarget = null;
 		this.TP();
-		
-		switch ( this.getPacHunt().target )
+		if(this.cpt < 500)
 		{
-			case "RIGHT":
+			switch ( this.getPacHunt().target )
 			{
-				for ( int i=4;i>=0;i--)
+				case "RIGHT":
 				{
-					chTarget = this.myEnv.getChery(chPacman.getLig(), chPacman.getCol()-i);
-					if (  chTarget != null )break;
+					for ( int i=4;i>=0;i--)
+					{
+						chTarget = this.myEnv.getChery(chPacman.getLig(), chPacman.getCol()-i);
+						if (  chTarget != null )break;
+					}
+					break;
 				}
-				break;
+				case "LEFT":
+				{
+					for ( int i=4;i>=0;i--)
+					{
+						chTarget = this.myEnv.getChery(chPacman.getLig(), chPacman.getCol()+i);
+						if (  chTarget != null )break;
+					}
+					break;
+				}
+				case "DOWN":
+				{
+					for ( int i=4;i>=0;i--)
+					{
+						chTarget = this.myEnv.getChery(chPacman.getLig()-i, chPacman.getCol());
+						if (  chTarget != null )break;
+					}
+					break;
+				}
+				case "TOP":
+				{
+					for ( int i=4;i>=0;i--)
+					{
+						chTarget = this.myEnv.getChery(chPacman.getLig()+i, chPacman.getCol());
+						if (  chTarget != null )break;
+					}
+					break;
+				}
+				
+				
 			}
-			case "LEFT":
+			
+			if (  chPacman != null )
 			{
-				for ( int i=4;i>=0;i--)
-				{
-					chTarget = this.myEnv.getChery(chPacman.getLig(), chPacman.getCol()+i);
-					if (  chTarget != null )break;
-				}
-				break;
+				if ( chTarget != null )this.goTo(chTarget);
+				else                   this.goTo(chPacman);
 			}
-			case "DOWN":
-			{
-				for ( int i=4;i>=0;i--)
-				{
-					chTarget = this.myEnv.getChery(chPacman.getLig()-i, chPacman.getCol());
-					if (  chTarget != null )break;
-				}
-				break;
-			}
-			case "TOP":
-			{
-				for ( int i=4;i>=0;i--)
-				{
-					chTarget = this.myEnv.getChery(chPacman.getLig()+i, chPacman.getCol());
-					if (  chTarget != null )break;
-				}
-				break;
-			}
+			
 		}
-		
-
-		System.out.println(chTarget);
-		
-		if (  chPacman != null )
+		else
 		{
-			if ( chTarget != null )this.goTo(chTarget);
-			else                   this.goTo(chPacman);
+			if(this.cpt > 650)this.cpt=0;
+			this.goTo(this.myEnv.getChery(28,26));
 		}
 	}
 }

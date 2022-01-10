@@ -13,21 +13,24 @@ public class Ghost extends Robot
 	private Pacman  pacHunt ;
 	private Cherry  nextNode;
 	
+	protected int cpt;
+	
 	protected int counter;
 	
 	public Ghost(Vector3d pos, String name, Environnement ed, Pacman pacHunt)
 	{
 		super(pos, name, ed);
+		this.cpt = 0;
 		this.pacHunt = pacHunt;
 	}
 	
 	protected Pacman getPacHunt() { return this.pacHunt; }
 
-	protected void goTo(Cherry chPacman)
+	protected void goTo(Cherry chDest)
 	{
 		for ( Cherry n : this.myEnv.getCherries() )n.setSelection(false);
 		
-		List<Cherry> chemins = this.determinerChemin(chPacman);
+		List<Cherry> chemins = this.determinerChemin(chDest);
 		
 		Cherry c;
 		if ( chemins.size() > 1 )c = chemins.get(chemins.size()-2);
@@ -37,18 +40,18 @@ public class Ghost extends Robot
 		this.setDeplacement(this.currentCherry);
 		if ( c.getCol()-14 == (int)Math.round(this.getX()) )
 		{
-			if ( c.getLig()-15 < (int)Math.round(this.getZ()) && !this.target.equals("DOWN") ) this.setAngle("TOP"  );  
-			else if ( !this.target.equals("TOP") )                                             this.setAngle("DOWN" );  
+			if ( c.getLig()-15 < (int)Math.round(this.getZ()) /*&& !this.target.equals("DOWN") */) this.setAngle("TOP"  );  
+			else /*if ( !this.target.equals("TOP") )       */                                      this.setAngle("DOWN" );  
 		}
 		else
 		{
-			if ( c.getCol()-14 < (int)Math.round(this.getX()) && !this.target.equals("RIGHT") ) this.setAngle("LEFT"  ); 
-			else if ( !this.target.equals("LEFT") )                                             this.setAngle("RIGHT" );  
+			if ( c.getCol()-14 < (int)Math.round(this.getX()) /*&& !this.target.equals("RIGHT") */) this.setAngle("LEFT"  ); 
+			else /*if ( !this.target.equals("LEFT") )           */                                  this.setAngle("RIGHT" );  
 		}
 		
 	}
 	
-	private List<Cherry> determinerChemin(Cherry chPacman)
+	private List<Cherry> determinerChemin(Cherry chDest)
 	{
 		List<Cherry> chemins = new ArrayList<Cherry>();
 		Cherry cherry;
@@ -80,10 +83,10 @@ public class Ghost extends Robot
 			
 			bOk = true;
 			
-			if ( !chPacman.getSelection() ) bOk = false;
+			if ( !chDest.getSelection() ) bOk = false;
 		}
 		
-		endNode = chPacman;
+		endNode = chDest;
 		while ( !endNode.equals(nextNode) )
 		{
 			chemins.add(endNode);
@@ -187,5 +190,11 @@ public class Ghost extends Robot
 				return n.getThis(zIntoTab, xIntoTab);
 		
 		return null;
+	}
+	
+	public void retourCorner(Cherry ch)
+	{
+		if(ch == null) return;
+		this.goTo(ch);
 	}
 }

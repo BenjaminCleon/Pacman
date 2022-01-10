@@ -5,6 +5,7 @@ import javax.vecmath.Vector3d;
 
 public class Blinky extends Ghost
 {	
+	
 	public Blinky(Vector3d pos, String name, Environnement ed, Pacman pacHunt)
 	{
 		super(pos, name, ed, pacHunt);
@@ -14,12 +15,22 @@ public class Blinky extends Ghost
 	
 	public void performBehavior()
 	{		
+		this.cpt++;
 		this.setTranslationalVelocity(4);
 		this.getCoords(this.position);
 		
 		this.TP();
-		Cherry chPacman = this.myEnv.getPacman().getCurrentCherry();
-		if (  chPacman != null )this.goTo(chPacman);
+		
+		if(this.cpt < 500)
+		{
+			Cherry chPacman = this.myEnv.getPacman().getCurrentCherry();
+			if (  chPacman != null )this.goTo(chPacman);
+		}
+		else
+		{
+			if(this.cpt > 650)this.cpt = 0;
+			else this.goTo(this.myEnv.getChery(1, 1));
+		}
 	}
 
 }
