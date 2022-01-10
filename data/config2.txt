@@ -9,7 +9,7 @@ B      BB    BB    BB      B
 BBBBBB BBBBB BB BBBBB BBBBBB
      B BBBBB BB BBBBB B     
      B BB          BB B     
-     B BB BBB  BBB BB B     
+     B BB BBBBBBBB BB B     
 BBBBBB BB B      B BB BBBBBB
           B      B          
 BBBBBB BB B      B BB BBBBBB
