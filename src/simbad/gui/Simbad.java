@@ -66,7 +66,7 @@ public class Simbad extends JFrame implements ActionListener {
     ControlWindow controlWindow=null;
     GameplayWindow gameplayWindow = null;
     World world;
-    Simulator simulator;
+    public Simulator simulator;
     Console console=null;
     AgentInspector agentInspector=null;
     boolean backgroundMode;
@@ -86,6 +86,7 @@ public class Simbad extends JFrame implements ActionListener {
         createGUI();
         start(ed);
         setVisible(true);
+        ed.setSimbad(this);
        
           }
  
