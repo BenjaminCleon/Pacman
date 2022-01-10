@@ -37,13 +37,13 @@ public class Ghost extends Robot
 		this.setDeplacement(this.currentCherry);
 		if ( c.getCol()-14 == (int)Math.round(this.getX()) )
 		{
-			if ( c.getLig()-15 < (int)Math.round(this.getZ()) ) this.setAngle("TOP"  );  
-			else                                                this.setAngle("DOWN" );  
+			if ( c.getLig()-15 < (int)Math.round(this.getZ()) && !this.target.equals("DOWN") ) this.setAngle("TOP"  );  
+			else if ( !this.target.equals("TOP") )                                             this.setAngle("DOWN" );  
 		}
 		else
 		{
-			if ( c.getCol()-14 < (int)Math.round(this.getX()) ) this.setAngle("LEFT"  ); 
-			else                                                this.setAngle("RIGHT" ); 
+			if ( c.getCol()-14 < (int)Math.round(this.getX()) && !this.target.equals("RIGHT") ) this.setAngle("LEFT"  ); 
+			else if ( !this.target.equals("LEFT") )                                             this.setAngle("RIGHT" );  
 		}
 		
 	}
