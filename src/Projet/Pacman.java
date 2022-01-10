@@ -26,7 +26,11 @@ public class Pacman extends Robot
 			((Cherry)this.getVeryNearAgent()).ceuillir();
 			this.verificationVictoire();
 		}
-		
+		if ( this.anOtherAgentIsVeryNear() && this.getVeryNearAgent() instanceof Ghost )
+		{
+			//System.out.println("test");
+			this.finDePartie(false);
+		}
 		this.setTranslationalVelocity(4);
 
 		if ( this.currentCherry != null )
@@ -41,11 +45,15 @@ public class Pacman extends Robot
 		for(Cherry c : this.myEnv.getCherries())
 			if(!c.getCeuillis())
 				finis = false;
-		if(finis) {this.victoire();}
+		if(finis) {this.finDePartie(true);}
 	}
-	public void victoire()
+	public void finDePartie(boolean aGagne)
 	{
-		myEnv.getSimbad().fermer();
-		new FrameVictoire();
+		//System.out.println(this.myEnv.getSimbad());
+		
+		this.myEnv.getSimbad().dispose();
+		new FrameFinDePartie(aGagne);
+		myEnv.getSimbad().simulator.resetSimulation();
 	}
+	
 }
