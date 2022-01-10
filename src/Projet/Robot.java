@@ -62,11 +62,17 @@ public class Robot extends Agent
 	
 	protected void setCurrentCherry()
 	{
-		this.currentCherry = null;
+		//this.currentCherry = null;
+		int x = (int)Math.round(this.getX());
+		int z = (int)Math.round(this.getZ());
+		
+		if ( x < -14  )x =  -14;
+		if ( x > 14   )x = 14;
+		
 		for ( Cherry c : this.myEnv.getCherries() )
 		{
-			if ( (int)Math.round(this.getX()) == (int)Math.round(c.getPosition().getX()) &&
-				 (int)Math.round(this.getZ()) == (int)Math.round(c.getPosition().getZ()) )
+			if (x == (int)Math.round(c.getPosition().getX()) &&
+				z == (int)Math.round(c.getPosition().getZ()) )
 			{
 				this.currentCherry = c;
 				break;
@@ -74,8 +80,27 @@ public class Robot extends Agent
 		}
 	}
 	
+	protected void TP()
+	{
+		Point3d pt = null;
+		
+		Cherry left  = this.myEnv.getChery(13, 0);
+		Cherry right = this.myEnv.getChery(13, 27);
+		
+		if ( this.currentCherry != null && left != null && this.currentCherry.equals(left) && this.target.equals("LEFT") )
+			pt = right.getPosition();
+			
+		if ( this.currentCherry != null && right != null && this.currentCherry.equals(right) && this.target.equals("RIGHT") )
+			pt = left.getPosition();
+		
+		if ( pt != null )this.moveToPosition(pt.getX(), pt.getZ());
+	}
+	
 	protected void setDeplacement(Cherry cherry)
 	{
+		if ( this.myEnv.getPacman().getCurrentCherry().equals(cherry) ) return;
+		
+		
 		char[][] plateau = this.myEnv.getPlateau();
 		double x = cherry.getPosition().getX();
 		double z = cherry.getPosition().getZ();
@@ -83,7 +108,7 @@ public class Robot extends Agent
 		double deltaX = Math.abs(Math.abs(this.position.getX())-Math.abs(x));
 		double deltaZ = Math.abs(Math.abs(this.position.getZ())-Math.abs(z));
 		
-		if ( deltaX < 0.1 && deltaZ < 0.1  )
+		if ( deltaX < 0.000001 && deltaZ < 0.000001  )
 		{
 			x+=14;
 			z+=15;

@@ -17,6 +17,7 @@ public class Blinky extends Ghost
 		this.setTranslationalVelocity(4);
 		this.getCoords(this.position);
 		
+		this.TP();
 		Cherry chPacman = this.myEnv.getPacman().getCurrentCherry();
 		if (  chPacman != null )this.goTo(chPacman);
 	}

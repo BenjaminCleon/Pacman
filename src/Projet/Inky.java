@@ -9,7 +9,7 @@ public class Inky extends Ghost
 	public Inky(Vector3d pos, String name, Environnement ed, Pacman pacHunt)
 	{
 		super(pos, name, ed, pacHunt);
-		this.setColor(new Color3f(125,0,255));
+		this.setColor(new Color3f(0,255,0));
 		this.target = "RIGHT";
 	}
 	
@@ -21,8 +21,8 @@ public class Inky extends Ghost
 		this.setCurrentCherry();		
 		Cherry chPacman = this.myEnv.getPacman().getCurrentCherry();
 		Cherry chTarget = null;
+		this.TP();
 		
-		System.out.println(this.getPacHunt().target);
 		switch ( this.getPacHunt().target )
 		{
 			case "RIGHT":

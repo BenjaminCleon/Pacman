@@ -17,6 +17,7 @@ public class Clyde extends Ghost
 	{		
 		this.setTranslationalVelocity(4);
 		this.getCoords(this.position);
+		this.TP();
 		
 		Cherry chPacman = this.getPacHunt().getCurrentCherry();
 		

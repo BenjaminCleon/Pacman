@@ -12,6 +12,11 @@ public class Pacman extends Robot
 	{
 		super(pos, name, ed);
 		this.setColor(new Color3f(255,255,0));
+		
+		this.deplacementsAutorise.add("TOP");
+		this.deplacementsAutorise.add("DOWN");
+		this.deplacementsAutorise.add("LEFT");
+		this.deplacementsAutorise.add("RIGHT");
 	}
 	
 	public Cherry getCurrentCherry(){ return this.currentCherry;	}
@@ -21,6 +26,8 @@ public class Pacman extends Robot
 		this.getCoords(this.position);
 		this.setCurrentCherry();
 	
+		this.TP();
+		
 		if ( this.anOtherAgentIsVeryNear() && this.getVeryNearAgent() instanceof Cherry )
 		{
 			((Cherry)this.getVeryNearAgent()).ceuillir();
@@ -28,7 +35,6 @@ public class Pacman extends Robot
 		}
 		if ( this.anOtherAgentIsVeryNear() && this.getVeryNearAgent() instanceof Ghost )
 		{
-			//System.out.println("test");
 			this.finDePartie(false);
 		}
 		this.setTranslationalVelocity(4);

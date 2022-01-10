@@ -35,6 +35,10 @@ public class Environnement extends EnvironmentDescription
 	
 	public Environnement()
 	{
+		String file = "./data/configSansTP.txt";
+		//String file = "./data/config2.txt";
+		//String file = "./data/config.txt";
+		
 		this.boxColor         = new Color3f(0,0,255);
 		this.worldViewPoint   = World.VIEW_FROM_TOP ;
 		this.worldSize        = 32                  ;
@@ -43,23 +47,27 @@ public class Environnement extends EnvironmentDescription
 		this.cherries = new ArrayList<Cherry>();
 		
 		this.pacman = new Pacman(new Vector3d(-0.5,0, 7), "pacman", this);
-		this.blinky = new Blinky(new Vector3d( 1,0,-5), "blinky", this, pacman);		
-		this.pinky  = new Pinky (new Vector3d(-2,0,-5), "blinky", this, pacman);
-		this.clyde  = new Clyde (new Vector3d(-5,0,-5), "blinky", this, pacman);
-		this.inky   = new Inky  (new Vector3d( 4,0,-5), "blinky", this, pacman);
-		
 		this.add(this.pacman);
-		this.add(this.blinky);
-		this.add(this.pinky);
-		this.add(this.clyde);
-		this.add(this.inky );
+		
+		if ( !file.equals("./data/config2.txt") )
+		{
+			this.blinky = new Blinky(new Vector3d( 1,0,-5), "blinky", this, pacman);		
+			this.pinky  = new Pinky (new Vector3d(-2,0,-5), "blinky", this, pacman);
+			this.clyde  = new Clyde (new Vector3d(-5,0,-5), "blinky", this, pacman);
+			this.inky   = new Inky  (new Vector3d( 4,0,-5), "blinky", this, pacman);
+		
+			this.add(this.blinky);
+			this.add(this.pinky);
+			this.add(this.clyde);
+			this.add(this.inky );
+		}
 		
 		String sLigneActuelle = "";
 		int iZ = -15;
 		
 		try
 		{
-			Scanner sc = new Scanner(new FileInputStream("./data/config.txt"), "UTF8");
+			Scanner sc = new Scanner(new FileInputStream(file), "UTF8");
 			
 			while((sLigneActuelle=sc.nextLine())!=null)
 			{
@@ -86,6 +94,12 @@ public class Environnement extends EnvironmentDescription
 		}catch(Exception e) {e.printStackTrace(); }
 		
 		for ( Cherry n : this.cherries )n.setVoisins();
+		
+		if ( file.equals("./data/config.txt") )
+		{
+			this.getChery(13, 27).setVoisins(this.getChery(13, 0));
+			this.getChery(13,  0).setVoisins(this.getChery(13, 27));
+		}
 	}
 	
 	public char[][] getPlateau(){ return this.plateau; }

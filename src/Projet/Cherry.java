@@ -62,6 +62,8 @@ public class Cherry extends CherryAgent
 	
 	public HashMap<Cherry, Integer> getVoisins() { return this.voisins; }
 	
+	public void setVoisins(Cherry c) {this.voisins.put(c,  1);}
+	
 	public void setVoisins()
 	{
 		char[][] plateau = this.myEnv.getPlateau();

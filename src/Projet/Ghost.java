@@ -136,6 +136,8 @@ public class Ghost extends Robot
 		int xIntoTab = (int)Math.round(this.getX())+14;
 		int zIntoTab = (int)Math.round(this.getZ())+15;
 		
+		if ( xIntoTab >= 28 )xIntoTab = 27;
+		
 		switch ( this.target )
 		{
 			case "LEFT":
