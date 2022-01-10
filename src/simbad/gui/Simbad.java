@@ -127,7 +127,7 @@ public class Simbad extends JFrame implements ActionListener {
 	gameplayWindow = new GameplayWindow();
         desktop.add(gameplayWindow);
         gameplayWindow.show();
-        gameplayWindow.setLocation(20, 100);
+        gameplayWindow.setLocation(20, 120);
         
         if (!backgroundMode){
         controlWindow = new ControlWindow(world, simulator);
@@ -207,6 +207,9 @@ public class Simbad extends JFrame implements ActionListener {
     public static Simbad getSimbadInstance() {
         return simbadInstance;
     }
+
+
+    public void fermer() {this.dispose();}
 
 
 

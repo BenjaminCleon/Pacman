@@ -18,8 +18,6 @@ public class Ghost extends Robot
 	public Ghost(Vector3d pos, String name, Environnement ed, Pacman pacHunt)
 	{
 		super(pos, name, ed);
-		
-		this.counter=0;
 		this.pacHunt = pacHunt;
 	}
 	
@@ -30,22 +28,24 @@ public class Ghost extends Robot
 		for ( Cherry n : this.myEnv.getCherries() )n.setSelection(false);
 		
 		List<Cherry> chemins = this.determinerChemin(chPacman);
-		Collections.reverse(chemins);
 		
-		for ( Cherry c : chemins)
+		Cherry c;
+		if ( chemins.size() > 1 )c = chemins.get(chemins.size()-2);
+		else                     c = chemins.get(chemins.size()-1);
+		
+		this.setCurrentCherry();
+		this.setDeplacement(this.currentCherry);
+		if ( c.getCol()-14 == (int)Math.round(this.getX()) )
 		{
-			this.setDeplacement(c);
-			if ( c.getCol() == chPacman.getCol() )
-			{
-				if ( c.getLig() > chPacman.getLig() ) { System.out.println("TOP"); this.setAngle("TOP"); }
-				else                                  { System.out.println("DOWN") ; this.setAngle("DOWN" ); }
-			}
-			else
-			{
-				if ( c.getCol() > chPacman.getCol() ){ System.out.println("LEFT" ); this.setAngle("LEFT"  );}
-				else                                 { System.out.println("RIGHT"); this.setAngle("RIGHT" );}
-			}
+			if ( c.getLig()-15 < (int)Math.round(this.getZ()) ) this.setAngle("TOP"  );  
+			else                                                this.setAngle("DOWN" );  
 		}
+		else
+		{
+			if ( c.getCol()-14 < (int)Math.round(this.getX()) ) this.setAngle("LEFT"  ); 
+			else                                                this.setAngle("RIGHT" ); 
+		}
+		
 	}
 	
 	private List<Cherry> determinerChemin(Cherry chPacman)

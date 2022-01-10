@@ -28,7 +28,10 @@ public class Environnement extends EnvironmentDescription
 	private List<Cherry> cherries;
 	
 	private Pacman pacman;
-	private Blinky  blinky;
+	private Blinky blinky;
+	private Pinky  pinky ;
+	private Clyde  clyde ;
+	private Inky   inky  ;
 	
 	public Environnement()
 	{
@@ -40,10 +43,16 @@ public class Environnement extends EnvironmentDescription
 		this.cherries = new ArrayList<Cherry>();
 		
 		this.pacman = new Pacman(new Vector3d(-0.5,0, 7), "pacman", this);
-		this.blinky = new Blinky(new Vector3d(-0.5,0,-5), "blinky", this, pacman);		
+		this.blinky = new Blinky(new Vector3d( 1,0,-5), "blinky", this, pacman);		
+		this.pinky  = new Pinky (new Vector3d(-2,0,-5), "blinky", this, pacman);
+		this.clyde  = new Clyde (new Vector3d(-5,0,-5), "blinky", this, pacman);
+		this.inky   = new Inky  (new Vector3d( 4,0,-5), "blinky", this, pacman);
 		
 		this.add(this.pacman);
 		this.add(this.blinky);
+		this.add(this.pinky);
+		this.add(this.clyde);
+		this.add(this.inky );
 		
 		String sLigneActuelle = "";
 		int iZ = -15;
@@ -80,6 +89,16 @@ public class Environnement extends EnvironmentDescription
 	}
 	
 	public char[][] getPlateau(){ return this.plateau; }
+	public Cherry getChery(int x, int z)
+	{
+		Cherry chRet = null;
+		
+		if ( x >= 0 && x < Environnement.NB_LIG && z >= 0 && z <  Environnement.NB_COL && this.plateau[x][z] == 'C' )
+			for ( Cherry c : this.cherries )
+				if ( c.getCol() == z && c.getLig() == x )chRet = c;
+		
+		return chRet;
+	}
 
 	public List<Cherry> getCherries(){return this.cherries; }
 

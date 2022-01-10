@@ -13,9 +13,7 @@ public class Blinky extends Ghost
 	}
 	
 	public void performBehavior()
-	{
-		this.counter++;
-		
+	{		
 		this.setTranslationalVelocity(4);
 		this.getCoords(this.position);
 		

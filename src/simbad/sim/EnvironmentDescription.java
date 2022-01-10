@@ -27,6 +27,9 @@ package simbad.sim;
 import javax.vecmath.Color3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
+
+import simbad.gui.Simbad;
+
 import java.util.ArrayList;
 /**
  * This class is intend to describe easily a the world and its components.
@@ -39,7 +42,7 @@ import java.util.ArrayList;
  */
 public class EnvironmentDescription {
     
-    
+	protected Simbad mySim;
     ArrayList objects;
     
     public Color3f white, black, red, green, blue, ligthgray, gray, darkgray;
@@ -133,6 +136,8 @@ public class EnvironmentDescription {
     */ 
    public void setWorldSize(float size){ worldSize = size;}
    
+   public void setSimbad(Simbad sim) { this.mySim = sim; }
+   public Simbad getSimbad() { return this.mySim; }
 
    public void addMap(String[] map){
  

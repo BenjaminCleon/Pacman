@@ -35,7 +35,7 @@ public class Cherry extends CherryAgent
 		this.ceuillis = false;
 		
 		this.valeur  = 0;
-		this.position = new Point3d();
+		this.position = new Point3d(pos);
 		this.voisins = new HashMap<Cherry, Integer>();
 	}
 	

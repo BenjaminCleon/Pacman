@@ -20,6 +20,7 @@ public class Robot extends Agent
 	
 	protected Environnement myEnv;	
 	protected List<String> deplacementsAutorise;
+	protected Cherry currentCherry;
 	
 	public Robot(Vector3d pos, String name, Environnement ed)
 	{
@@ -32,6 +33,9 @@ public class Robot extends Agent
 		this.deplacementsAutorise = new ArrayList<String>();
 		this.deplacementsAutorise.add("RIGTH");
 		this.deplacementsAutorise.add("LEFT" );
+		
+		this.target = "RIGHT";
+		this.setCurrentCherry();
 	}
 	
 	public double getX() { return this.position.getX(); }
@@ -56,14 +60,30 @@ public class Robot extends Agent
 		this.rotateY(this.angle);
 	}
 	
+	protected void setCurrentCherry()
+	{
+		this.currentCherry = null;
+		for ( Cherry c : this.myEnv.getCherries() )
+		{
+			if ( (int)Math.round(this.getX()) == (int)Math.round(c.getPosition().getX()) &&
+				 (int)Math.round(this.getZ()) == (int)Math.round(c.getPosition().getZ()) )
+			{
+				this.currentCherry = c;
+				break;
+			}
+		}
+	}
+	
 	protected void setDeplacement(Cherry cherry)
 	{
 		char[][] plateau = this.myEnv.getPlateau();
 		double x = cherry.getPosition().getX();
 		double z = cherry.getPosition().getZ();
 		HashMap<Cherry, Integer> voisins;
-
-		if ( Math.abs((int)Math.abs(this.position.getX())-Math.abs(x)) < 1 && Math.abs(Math.abs(this.position.getZ())-Math.abs(z)) < 1 )
+		double deltaX = Math.abs(Math.abs(this.position.getX())-Math.abs(x));
+		double deltaZ = Math.abs(Math.abs(this.position.getZ())-Math.abs(z));
+		
+		if ( deltaX < 0.1 && deltaZ < 0.1  )
 		{
 			x+=14;
 			z+=15;
