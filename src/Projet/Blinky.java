@@ -5,7 +5,6 @@ import javax.vecmath.Vector3d;
 
 public class Blinky extends Ghost
 {	
-	
 	public Blinky(Vector3d pos, String name, Environnement ed, Pacman pacHunt)
 	{
 		super(pos, name, ed, pacHunt);
@@ -14,7 +13,8 @@ public class Blinky extends Ghost
 	}
 	
 	public void performBehavior()
-	{		
+	{
+		super.performBehavior();
 		this.cpt++;
 		this.setTranslationalVelocity(4);
 		this.getCoords(this.position);

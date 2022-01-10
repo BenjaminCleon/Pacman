@@ -15,6 +15,7 @@ public class Pinky extends Ghost
 	
 	public void performBehavior()
 	{
+		super.performBehavior();
 		this.cpt++;
 		this.setTranslationalVelocity(4);
 		this.getCoords(this.position);

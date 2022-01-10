@@ -1,3 +1,4 @@
+
 package Projet;
 
 import javax.vecmath.Color3f;
@@ -15,6 +16,7 @@ public class Inky extends Ghost
 	
 	public void performBehavior()
 	{
+		super.performBehavior();
 		this.cpt++;
 		System.out.println("CPT " + this.cpt);
 		this.setTranslationalVelocity(4);

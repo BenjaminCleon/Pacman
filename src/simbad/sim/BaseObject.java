@@ -112,9 +112,9 @@ public  abstract class BaseObject {
    /** Resets translation and rotation transforms. */
    	void resetTransforms(){
         translation.setIdentity();
-        rotation.setIdentity();
+        //rotation.setIdentity();
         translationGroup.setTransform(translation);
-        rotationGroup.setTransform(rotation);
+        //rotationGroup.setTransform(rotation);
    	}
    
    	/** Create the object geometry. */

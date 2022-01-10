@@ -52,9 +52,9 @@ public class Environnement extends EnvironmentDescription
 		if ( !file.equals("./data/config2.txt") )
 		{
 			this.blinky = new Blinky(new Vector3d( 1,0,-5), "blinky", this, pacman);		
-			this.pinky  = new Pinky (new Vector3d(-2,0,-5), "blinky", this, pacman);
-			this.clyde  = new Clyde (new Vector3d(-5,0,-5), "blinky", this, pacman);
-			this.inky   = new Inky  (new Vector3d( 4,0,-5), "blinky", this, pacman);
+			this.pinky  = new Pinky (new Vector3d(-2,0,-5), "pinky" , this, pacman);
+			this.clyde  = new Clyde (new Vector3d(-5,0,-5), "clyde" , this, pacman);
+			this.inky   = new Inky  (new Vector3d( 4,0,-5), "inky"  , this, pacman);
 		
 			this.add(this.blinky);
 			this.add(this.pinky);

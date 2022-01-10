@@ -13,24 +13,24 @@ public class Ghost extends Robot
 	private Pacman  pacHunt ;
 	private Cherry  nextNode;
 	
-	protected int cpt;
+	private String targetOrigin;
 	
-	protected int counter;
+	protected int cpt;
 	
 	public Ghost(Vector3d pos, String name, Environnement ed, Pacman pacHunt)
 	{
 		super(pos, name, ed);
-		this.cpt = 0;
 		this.pacHunt = pacHunt;
+		this.targetOrigin = this.target;
 	}
 	
 	protected Pacman getPacHunt() { return this.pacHunt; }
 
-	protected void goTo(Cherry chDest)
+	protected void goTo(Cherry chPacman)
 	{
 		for ( Cherry n : this.myEnv.getCherries() )n.setSelection(false);
 		
-		List<Cherry> chemins = this.determinerChemin(chDest);
+		List<Cherry> chemins = this.determinerChemin(chPacman);
 		
 		Cherry c;
 		if ( chemins.size() > 1 )c = chemins.get(chemins.size()-2);
@@ -38,20 +38,20 @@ public class Ghost extends Robot
 		
 		this.setCurrentCherry();
 		this.setDeplacement(this.currentCherry);
+		
 		if ( c.getCol()-14 == (int)Math.round(this.getX()) )
 		{
-			if ( c.getLig()-15 < (int)Math.round(this.getZ()) /*&& !this.target.equals("DOWN") */) this.setAngle("TOP"  );  
-			else /*if ( !this.target.equals("TOP") )       */                                      this.setAngle("DOWN" );  
+			if ( c.getLig()-15 < (int)Math.round(this.getZ())) this.setAngle("TOP"  );  
+			else                                               this.setAngle("DOWN" );  
 		}
 		else
 		{
-			if ( c.getCol()-14 < (int)Math.round(this.getX()) /*&& !this.target.equals("RIGHT") */) this.setAngle("LEFT"  ); 
-			else /*if ( !this.target.equals("LEFT") )           */                                  this.setAngle("RIGHT" );  
+			if ( c.getCol()-14 < (int)Math.round(this.getX()) ) this.setAngle("LEFT"  ); 
+			else                                                this.setAngle("RIGHT" );  
 		}
-		
 	}
 	
-	private List<Cherry> determinerChemin(Cherry chDest)
+	private List<Cherry> determinerChemin(Cherry chPacman)
 	{
 		List<Cherry> chemins = new ArrayList<Cherry>();
 		Cherry cherry;
@@ -83,10 +83,10 @@ public class Ghost extends Robot
 			
 			bOk = true;
 			
-			if ( !chDest.getSelection() ) bOk = false;
+			if ( !chPacman.getSelection() ) bOk = false;
 		}
 		
-		endNode = chDest;
+		endNode = chPacman;
 		while ( !endNode.equals(nextNode) )
 		{
 			chemins.add(endNode);
@@ -145,41 +145,69 @@ public class Ghost extends Robot
 		{
 			case "LEFT":
 			{
+				this.targetOrigin = this.target;
 				for ( int x=xIntoTab;x>=0;x-- )
 					if ( plateau[zIntoTab][x] == 'C' )
 					{
 						xIntoTab = x;
 						break;
 					}
+					else if ( plateau[zIntoTab][x] == 'B' )
+					{
+						if ( this.targetOrigin.equals("DOWN") )this.target = "RIGHT";
+						else                                   this.target = "TOP";
+						return this.determinerNextNode();
+					}
 				break;
 			}
 			case "RIGHT":
 			{
+				this.targetOrigin = this.target;
 				for ( int x=xIntoTab;x<Environnement.NB_COL;x++ )
 					if ( plateau[zIntoTab][x] == 'C' )
 					{
 						xIntoTab = x;
 						break;
 					}
+					else if ( plateau[zIntoTab][x] == 'B' )
+					{
+						if ( this.targetOrigin.equals("TOP") )this.target = "LEFT";
+						else                                  this.target = "DOWN";
+						return this.determinerNextNode();
+					}
 				break;
 			}
 			case "DOWN":
 			{
+				this.targetOrigin = this.target;
 				for ( int z=zIntoTab;z>=0;z-- )
 					if ( plateau[z][xIntoTab] == 'C' )
 					{
 						zIntoTab = z;
 						break;
 					}
+					else if ( plateau[z][xIntoTab] == 'B' )
+					{
+						if ( this.targetOrigin.equals("RIGHT") )this.target = "TOP";
+						else                                    this.target = "LEFT";
+						return this.determinerNextNode();
+					}
 				break;
 			}
 			case "TOP":
 			{
+				this.targetOrigin = this.target;
 				for ( int z=zIntoTab;z<Environnement.NB_LIG;z++ )
 					if ( plateau[z][xIntoTab] == 'C' )
 					{
 						zIntoTab = z;
 						break;
+					}
+					else if ( plateau[z][xIntoTab] == 'B' )
+					{
+						if ( this.targetOrigin.equals("LEFT") )this.target = "DOWN";
+						else                                   this.target = "RIGHT";
+						return this.determinerNextNode();
 					}
 				break;
 			}	
@@ -192,9 +220,11 @@ public class Ghost extends Robot
 		return null;
 	}
 	
-	public void retourCorner(Cherry ch)
+	public void performBehavior()
 	{
-		if(ch == null) return;
-		this.goTo(ch);
+
+		if ( this.collisionDetected() )
+			this.moveToPosition(this.currentCherry.getPosition().getX(), this.currentCherry.getPosition().getZ());
+		
 	}
 }

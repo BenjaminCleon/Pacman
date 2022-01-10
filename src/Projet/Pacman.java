@@ -37,7 +37,7 @@ public class Pacman extends Robot
 		{
 			this.finDePartie(false);
 		}
-		this.setTranslationalVelocity(4);
+		this.setTranslationalVelocity(4.75);
 
 		if ( this.currentCherry != null )
 		{

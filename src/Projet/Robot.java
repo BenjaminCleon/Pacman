@@ -43,6 +43,8 @@ public class Robot extends Agent
 	
 	public void setAngle(String direction)
 	{
+		Cherry chPacman = this.myEnv.getPacman().getCurrentCherry();
+		
 		if ( !this.deplacementsAutorise.contains(direction) )return;
 		
 		while( this.angle != 0 )
